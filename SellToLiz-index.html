@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<!--
+  SellToLiz — Landing page de alta conversión (borrador)
+  ------------------------------------------------------
+  ANTES DE PUBLICAR, REEMPLAZA:
+  1) Teléfono / WhatsApp: buscar "(555) 010-0199" y "15550100199"
+  2) Correo: buscar "hola@selltoliz.com"
+  3) Fotos: buscar los bloques con class="ph-photo" (placeholders de foto de Liz y de propiedades)
+  4) Testimonios: sección #testimonios tiene ejemplos de plantilla — sustituir por reseñas reales verificadas
+  5) El formulario NO envía datos a ningún servidor todavía. Busca "TODO: CONECTAR FORMULARIO"
+     y conéctalo a tu CRM (GoHighLevel, HubSpot, Formspree, Zapier, etc.) o a un webhook propio.
+  6) Enlaces de Términos/Privacidad al final apuntan a "#": crear esas páginas antes de lanzar.
+-->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SellToLiz | Vende Tu Casa Rápido, En Efectivo y Sin Comisiones</title>
+<meta name="description" content="Vende tu casa rápido en efectivo, sin comisiones y sin reparaciones. Recibe tu oferta en menos de 24 horas. Atención en español en todo Estados Unidos.">
+<style>
+  :root{
+    --navy:#0A0E1A;
+    --navy-2:#101830;
+    --navy-3:#161f3d;
+    --gold:#D9A441;
+    --gold-light:#F0C877;
+    --green:#1FAA59;
+    --green-dark:#178C48;
+    --white:#FFFFFF;
+    --gray-50:#F7F8FA;
+    --gray-100:#EEF1F6;
+    --gray-300:#C9D0DE;
+    --gray-500:#7A8399;
+    --text:#1B2233;
+    --radius:14px;
+    --shadow-lg:0 20px 50px rgba(10,14,26,.25);
+    --shadow-md:0 8px 24px rgba(10,14,26,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--text);
+    background:var(--white);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  .container{max-width:1180px;margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    display:inline-block;font-size:13px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--gold);margin-bottom:12px;
+  }
+  h1,h2,h3{font-weight:800;letter-spacing:-.01em;}
+  h2{font-size:clamp(26px,3.4vw,38px);color:var(--navy);}
+  h3{font-size:20px;color:var(--navy);}
+  .section{padding:80px 0;}
+  .section-tight{padding:56px 0;}
+  .center{text-align:center;}
+  .sub{color:var(--gray-500);font-size:17px;max-width:640px;}
+  .center .sub{margin:0 auto;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:16px 28px;border-radius:999px;font-weight:700;font-size:16px;
+    border:none;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--green);color:#fff;box-shadow:0 10px 24px rgba(31,170,89,.35);}
+  .btn-primary:hover{background:var(--green-dark);}
+  .btn-gold{background:var(--gold);color:var(--navy);box-shadow:0 10px 24px rgba(217,164,65,.35);}
+  .btn-outline{background:transparent;color:var(--white);border:1.5px solid rgba(255,255,255,.5);}
+  .btn-outline:hover{background:rgba(255,255,255,.08);}
+  .btn-block{width:100%;}
+  .btn-lg{padding:18px 32px;font-size:17px;}
+
+  /* Header */
+  header{
+    position:sticky;top:0;z-index:100;background:rgba(10,14,26,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06);
+    transition:box-shadow .2s ease;
+  }
+  header.scrolled{box-shadow:0 6px 20px rgba(0,0,0,.25);}
+  .nav-wrap{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1180px;margin:0 auto;}
+  .logo{font-size:22px;font-weight:800;color:#fff;}
+  .logo span{color:var(--gold);}
+  .nav-links{display:flex;gap:32px;align-items:center;}
+  .nav-links a{color:rgba(255,255,255,.85);font-size:15px;font-weight:600;}
+  .nav-links a:hover{color:var(--gold-light);}
+  .nav-cta{display:flex;gap:14px;align-items:center;}
+  .phone-pill{display:flex;align-items:center;gap:8px;color:#fff;font-weight:700;font-size:15px;}
+  .phone-pill svg{width:18px;height:18px;stroke:var(--gold);}
+  .menu-toggle{display:none;background:none;border:none;color:#fff;font-size:26px;cursor:pointer;}
+
+  /* Hero */
+  .hero{
+    position:relative;background:radial-gradient(ellipse at top left, var(--navy-3), var(--navy) 60%);
+    color:#fff;overflow:hidden;padding:72px 0 90px;
+  }
+  .hero::before, .hero::after{
+    content:"";position:absolute;border-radius:50%;filter:blur(60px);opacity:.35;pointer-events:none;
+  }
+  .hero::before{width:420px;height:420px;background:var(--gold);top:-140px;right:-100px;}
+  .hero::after{width:360px;height:360px;background:#2f6fed;bottom:-160px;left:-100px;opacity:.25;}
+  .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:start;}
+  .trust-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+  .trust-chip{
+    display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.14);padding:9px 14px;border-radius:999px;font-size:13.5px;font-weight:600;
+  }
+  .trust-chip svg{width:16px;height:16px;stroke:var(--gold-light);flex-shrink:0;}
+  .hero h1{font-size:clamp(32px,4.4vw,50px);line-height:1.08;color:#fff;}
+  .hero h1 em{font-style:normal;color:var(--gold-light);}
+  .hero p.lead{margin-top:18px;font-size:18px;color:rgba(255,255,255,.8);max-width:520px;}
+  .hero-ctas{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;}
+  .stars-row{display:flex;align-items:center;gap:10px;margin-top:34px;color:rgba(255,255,255,.75);font-size:14px;}
+  .stars{color:var(--gold-light);letter-spacing:2px;font-size:16px;}
+
+  /* Form card */
+  .form-card{
+    background:#fff;border-radius:20px;padding:30px;box-shadow:var(--shadow-lg);color:var(--text);
+  }
+  .form-card h3{font-size:21px;margin-bottom:4px;}
+  .form-card .form-note{color:var(--gray-500);font-size:14px;margin-bottom:20px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:var(--navy);}
+  .field input, .field select{
+    width:100%;padding:13px 14px;border-radius:10px;border:1.5px solid var(--gray-300);
+    font-size:15px;font-family:inherit;background:var(--gray-50);
+  }
+  .field input:focus, .field select:focus{outline:none;border-color:var(--green);background:#fff;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .form-fine{font-size:12px;color:var(--gray-500);margin-top:10px;text-align:center;}
+  .form-success{display:none;text-align:center;padding:20px 4px;}
+  .form-success.show{display:block;}
+  .form-success svg{width:52px;height:52px;stroke:var(--green);margin:0 auto 12px;}
+
+  /* Formulario tipo "quiz" paso a paso (mayor conversión en tráfico pagado) */
+  .progress-wrap{margin-bottom:22px;}
+  .progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .progress-top .step-lbl{font-size:11.5px;font-weight:700;letter-spacing:.06em;color:var(--gold);text-transform:uppercase;}
+  .progress-top .pct{font-size:11.5px;color:var(--gray-500);font-weight:600;}
+  .bar-track{height:6px;border-radius:999px;background:var(--gray-100);overflow:hidden;}
+  .bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--green));width:25%;transition:width .35s ease;}
+  .q-eyebrow{display:block;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .q-title{font-size:20px;color:var(--navy);margin-bottom:6px;}
+  .q-sub{color:var(--gray-500);font-size:14px;margin-bottom:20px;}
+  .opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;}
+  .opt{
+    border:1.5px solid var(--gray-300);background:var(--gray-50);border-radius:10px;padding:14px;
+    cursor:pointer;font-size:14px;font-weight:600;color:var(--text);transition:border-color .15s ease, background .15s ease;
+  }
+  .opt:hover{border-color:var(--gold);}
+  .opt.selected{border-color:var(--green);background:rgba(31,170,89,.08);color:var(--navy);}
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px;}
+  .btn-outline-dark{background:transparent;color:var(--navy);border:1.5px solid var(--gray-300);}
+  .btn-outline-dark:hover{border-color:var(--navy);}
+  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+  .step-panel{display:none;animation:quizFadeIn .3s ease;}
+  .step-panel.active{display:block;}
+  @keyframes quizFadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .confirm-step{text-align:center;}
+  .confirm-ring{
+    width:60px;height:60px;border-radius:50%;margin:0 auto 16px;background:var(--green);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;
+  }
+  .confirm-step h3{font-size:20px;color:var(--navy);margin-bottom:8px;}
+
+  /* Sections generic */
+  .bg-gray{background:var(--gray-50);}
+  .bg-navy{background:var(--navy);color:#fff;}
+  .bg-navy h2{color:#fff;}
+  .bg-navy .sub{color:rgba(255,255,255,.65);}
+
+  /* Sobre Liz */
+  .about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center;}
+  .ph-photo{
+    aspect-ratio:4/5;border-radius:20px;background:linear-gradient(135deg,#e9ecf3,#d7dcea);
+    display:flex;align-items:center;justify-content:center;color:var(--gray-500);font-size:14px;font-weight:600;
+    border:1.5px dashed var(--gray-300);text-align:center;padding:20px;
+  }
+  /* Video de presentación (reemplaza la foto) */
+  .video-embed{
+    position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;
+    background:linear-gradient(135deg, var(--navy-3), var(--navy));box-shadow:var(--shadow-lg);
+  }
+  .video-embed video, .video-embed iframe, .video-embed .video-photo{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;
+  }
+  .video-placeholder{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(10,14,26,.18);
+  }
+  .play-btn{
+    width:64px;height:64px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 26px rgba(217,164,65,.4);
+  }
+  .play-btn svg{width:22px;height:22px;fill:var(--navy);margin-left:3px;}
+  .video-placeholder p{font-size:13px;color:rgba(255,255,255,.65);max-width:220px;}
+  .video-placeholder strong{font-size:15px;color:#fff;}
+  /* Costo de esperar */
+  .cost-callout{
+    margin-top:28px;background:var(--gray-50);border:1.5px solid var(--gray-100);border-left:4px solid var(--gold);
+    border-radius:12px;padding:22px 26px;max-width:820px;margin-left:auto;margin-right:auto;
+  }
+  .cost-callout strong{color:var(--navy);}
+  .cost-callout p{color:var(--gray-500);font-size:15px;margin-top:6px;}
+  /* Tag de situación en testimonios */
+  .test-tag{
+    display:inline-block;font-size:11.5px;font-weight:700;color:var(--gold);background:rgba(217,164,65,.12);
+    padding:3px 10px;border-radius:6px;margin-bottom:12px;
+  }
+  /* Lista de confianza dentro de "Sobre Liz" */
+  .about-trust-list li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:14.5px;color:var(--text);}
+  .about-trust-list svg{width:18px;height:18px;stroke:var(--green);flex-shrink:0;margin-top:2px;}
+  .about-quote{
+    font-size:19px;color:var(--navy);font-weight:600;border-left:4px solid var(--gold);
+    padding-left:18px;margin:20px 0;font-style:italic;
+  }
+  .signature{font-weight:800;color:var(--navy);margin-top:18px;font-size:16px;}
+  .signature small{display:block;font-weight:500;color:var(--gray-500);font-size:13px;margin-top:2px;}
+
+  /* Steps */
+  .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px;}
+  .step-card{
+    background:#fff;border-radius:var(--radius);padding:32px 26px;box-shadow:var(--shadow-md);
+    border:1px solid var(--gray-100);position:relative;
+  }
+  .step-num{
+    width:44px;height:44px;border-radius:12px;background:var(--navy);color:var(--gold-light);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;margin-bottom:18px;
+  }
+  .step-card p{color:var(--gray-500);font-size:15px;margin-top:8px;}
+
+  /* Comparison table */
+  .compare-wrap{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .compare-card{border-radius:var(--radius);padding:30px 28px;}
+  .compare-card.good{background:var(--navy);color:#fff;box-shadow:var(--shadow-lg);}
+  .compare-card.bad{background:var(--gray-50);border:1.5px solid var(--gray-100);}
+  .compare-card h3{margin-bottom:18px;}
+  .compare-card.good h3{color:var(--gold-light);}
+  .compare-list li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;font-size:15px;}
+  .compare-card.bad .compare-list li{color:#4b5468;}
+  .compare-list svg{width:18px;height:18px;flex-shrink:0;margin-top:2px;}
+  .compare-card.good .compare-list svg{stroke:var(--green);}
+  .compare-card.bad .compare-list svg{stroke:#B4472F;}
+
+  /* Situations grid */
+  .sit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:44px;}
+  .sit-card{
+    background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius);padding:24px 20px;
+    text-align:center;box-shadow:var(--shadow-md);
+  }
+  .sit-card svg{width:30px;height:30px;stroke:var(--gold);margin:0 auto 12px;}
+  .sit-card h4{font-size:15.5px;color:var(--navy);font-weight:700;}
+  .sit-card p{font-size:13.5px;color:var(--gray-500);margin-top:8px;line-height:1.5;}
+
+  /* Testimonials */
+  .test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px;}
+  .test-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow-md);}
+  .test-stars{color:var(--gold);letter-spacing:2px;margin-bottom:10px;}
+  .test-card p{color:var(--text);font-size:15px;}
+  .test-name{margin-top:16px;font-weight:700;color:var(--navy);font-size:14px;}
+  .test-name span{display:block;font-weight:500;color:var(--gray-500);font-size:13px;}
+  .placeholder-tag{
+    display:inline-block;margin-top:14px;font-size:11px;font-weight:700;color:#B4472F;
+    background:#FBE7E1;padding:4px 9px;border-radius:6px;
+  }
+
+  /* FAQ */
+  .faq-list{max-width:780px;margin:44px auto 0;}
+  .faq-item{border-bottom:1px solid var(--gray-100);}
+  .faq-q{
+    width:100%;text-align:left;background:none;border:none;padding:20px 4px;
+    display:flex;justify-content:space-between;align-items:center;cursor:pointer;
+    font-size:16.5px;font-weight:700;color:var(--navy);font-family:inherit;
+  }
+  .faq-q .icon{transition:transform .2s ease;color:var(--gold);font-size:20px;flex-shrink:0;margin-left:16px;}
+  .faq-item.open .faq-q .icon{transform:rotate(45deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .faq-a p{padding:0 4px 20px;color:var(--gray-500);font-size:15px;max-width:680px;}
+
+  /* Final CTA */
+  .final-cta{
+    background:linear-gradient(135deg, var(--navy-3), var(--navy));color:#fff;text-align:center;
+    padding:72px 0;
+  }
+  .final-cta h2{color:#fff;}
+  .final-cta .sub{color:rgba(255,255,255,.7);margin:14px auto 32px;}
+  .final-actions{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;}
+
+  /* Footer */
+  footer{background:#080B14;color:rgba(255,255,255,.6);padding:56px 0 24px;font-size:14px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.08);}
+  .footer-logo{font-size:20px;font-weight:800;color:#fff;margin-bottom:12px;}
+  .footer-logo span{color:var(--gold);}
+  footer h4{color:#fff;font-size:14px;margin-bottom:14px;}
+  footer ul li{margin-bottom:10px;}
+  footer a:hover{color:#fff;}
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:22px;flex-wrap:wrap;gap:10px;font-size:12.5px;}
+  .disclaimer{max-width:1180px;margin:0 auto;padding:0 24px;font-size:12px;color:rgba(255,255,255,.35);margin-top:18px;line-height:1.7;}
+
+  /* Floating WhatsApp + mobile sticky bar */
+  .whatsapp-float{
+    position:fixed;bottom:86px;right:22px;z-index:200;width:58px;height:58px;border-radius:50%;
+    background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(0,0,0,.3);
+  }
+  .whatsapp-float svg{width:28px;height:28px;fill:#fff;}
+  .mobile-sticky{
+    display:none;position:fixed;bottom:0;left:0;right:0;z-index:199;background:#fff;
+    box-shadow:0 -8px 24px rgba(0,0,0,.12);padding:10px 14px;gap:10px;
+  }
+  .mobile-sticky a{flex:1;}
+
+  @media (max-width:980px){
+    .hero-grid{grid-template-columns:1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    .about-grid .ph-photo{max-width:340px;margin:0 auto;}
+    .compare-wrap{grid-template-columns:1fr;}
+    .steps-grid{grid-template-columns:1fr;}
+    .sit-grid{grid-template-columns:repeat(2,1fr);}
+    .test-grid{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .phone-pill span{display:none;}
+  }
+  @media (max-width:640px){
+    .sit-grid{grid-template-columns:1fr 1fr;}
+    .field-row{grid-template-columns:1fr;}
+    .mobile-sticky{display:flex;}
+    .section{padding:56px 0;}
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="nav-wrap">
+    <a href="#" class="logo">Sell<span>To</span>Liz</a>
+    <nav class="nav-links">
+      <a href="#como-funciona">Cómo Funciona</a>
+      <a href="#sobre-liz">Sobre Liz</a>
+      <a href="#preguntas">Preguntas Frecuentes</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="tel:+15550100199" class="phone-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span>(555) 010-0199</span>
+      </a>
+      <a href="#oferta" class="btn btn-gold">Recibe Tu Oferta</a>
+      <button class="menu-toggle" aria-label="Menú">☰</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">Compradores directos · En efectivo · En todo Estados Unidos</span>
+      <h1>Vende tu casa rápido, <em>en efectivo</em> y sin complicaciones</h1>
+      <p class="lead">Recibe una oferta justa por tu propiedad en menos de 24 horas — sin reparaciones, sin comisiones de agente y sin esperar meses. La compramos tal como está, sin que tengas que limpiar, arreglar ni explicar nada. Tú eliges la fecha de cierre.</p>
+
+      <div class="trust-row">
+        <span class="trust-chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Oferta en 24 horas</span>
+        <span class="trust-chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Cero comisiones</span>
+        <span class="trust-chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Compramos en cualquier condición</span>
+        <span class="trust-chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Atención 100% en español</span>
+      </div>
+
+      <div class="hero-ctas">
+        <a href="#oferta" class="btn btn-primary btn-lg">Quiero Mi Oferta En Efectivo</a>
+        <a href="https://wa.me/15550100199" class="btn btn-outline btn-lg">Escribir por WhatsApp</a>
+      </div>
+
+      <div class="stars-row">
+        <span class="stars">★★★★★</span>
+        <span>Propietarios hispanos en todo el país confían en nuestro proceso transparente.</span>
+      </div>
+    </div>
+
+    <div class="form-card" id="oferta">
+
+      <div class="progress-wrap">
+        <div class="progress-top">
+          <span class="step-lbl" id="stepLbl">PASO 1 DE 4</span>
+          <span class="pct" id="pctLbl">25%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+      </div>
+
+      <!-- PASO 1: Dirección -->
+      <div class="step-panel active" data-step="1">
+        <span class="q-eyebrow">Empecemos</span>
+        <h3 class="q-title">¿Cuál es la dirección de tu propiedad?</h3>
+        <p class="q-sub">La usamos para preparar tu oferta en efectivo. Gratis y sin compromiso.</p>
+        <div class="field">
+          <label for="direccion">Dirección</label>
+          <input type="text" id="direccion" placeholder="Calle y número">
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="ciudad">Ciudad</label><input type="text" id="ciudad" placeholder="Ciudad"></div>
+          <div class="field"><label for="estado">Estado</label><input type="text" id="estado" placeholder="Estado"></div>
+        </div>
+        <div class="nav-row">
+          <button type="button" class="btn btn-primary" style="margin-left:auto;" onclick="quizNext(1)">Continuar →</button>
+        </div>
+      </div>
+
+      <!-- PASO 2: Condición (lenguaje sin pena / sin juicio) -->
+      <div class="step-panel" data-step="2">
+        <span class="q-eyebrow">Sobre la propiedad</span>
+        <h3 class="q-title">¿Cómo describirías la propiedad?</h3>
+        <p class="q-sub">No hay respuesta incorrecta — compramos casas en cualquier condición, sin excepción y sin juicios.</p>
+        <div class="opt-grid" id="conditionGrid">
+          <div class="opt" data-val="lista">Lista para habitar</div>
+          <div class="opt" data-val="menor">Necesita arreglos menores</div>
+          <div class="opt" data-val="mayor">Necesita arreglos mayores</div>
+          <div class="opt" data-val="deteriorada">Muy deteriorada</div>
+        </div>
+        <div class="nav-row">
+          <button type="button" class="btn btn-outline-dark" onclick="quizPrev(2)">← Atrás</button>
+          <button type="button" class="btn btn-primary" id="qBtn2" disabled onclick="quizNext(2)">Continuar →</button>
+        </div>
+      </div>
+
+      <!-- PASO 3: Tiempo -->
+      <div class="step-panel" data-step="3">
+        <span class="q-eyebrow">Tu tiempo</span>
+        <h3 class="q-title">¿Cuándo te gustaría vender?</h3>
+        <p class="q-sub">No hay prisa de tu parte — nosotros nos ajustamos a tu calendario.</p>
+        <div class="opt-grid" id="timelineGrid">
+          <div class="opt" data-val="ya">Lo antes posible</div>
+          <div class="opt" data-val="1-3">En 1 a 3 meses</div>
+          <div class="opt" data-val="3-6">En 3 a 6 meses</div>
+          <div class="opt" data-val="explorando">Solo estoy explorando</div>
+        </div>
+        <div class="nav-row">
+          <button type="button" class="btn btn-outline-dark" onclick="quizPrev(3)">← Atrás</button>
+          <button type="button" class="btn btn-primary" id="qBtn3" disabled onclick="quizNext(3)">Continuar →</button>
+        </div>
+      </div>
+
+      <!-- PASO 4: Contacto -->
+      <div class="step-panel" data-step="4">
+        <span class="q-eyebrow">Ya casi terminamos</span>
+        <h3 class="q-title">¿A dónde enviamos tu oferta?</h3>
+        <p class="q-sub">Respondemos en menos de 24 horas. Tu información nunca se comparte ni se vende.</p>
+        <div class="field"><label for="nombre">Nombre completo</label><input type="text" id="nombre" placeholder="Tu nombre"></div>
+        <div class="field-row">
+          <div class="field"><label for="telefono">Teléfono</label><input type="tel" id="telefono" placeholder="(000) 000-0000"></div>
+          <div class="field"><label for="correo">Correo (opcional)</label><input type="email" id="correo" placeholder="tucorreo@ejemplo.com"></div>
+        </div>
+        <div class="nav-row">
+          <button type="button" class="btn btn-outline-dark" onclick="quizPrev(4)">← Atrás</button>
+          <button type="button" class="btn btn-primary" onclick="quizSubmit()">Quiero Mi Oferta En Efectivo</button>
+        </div>
+        <p class="form-fine">Al enviar aceptas ser contactado por teléfono, SMS o WhatsApp sobre tu propiedad. Puedes cancelar cuando quieras.</p>
+      </div>
+
+      <!-- PASO 5: Confirmación -->
+      <div class="step-panel confirm-step" data-step="5">
+        <div class="confirm-ring">✓</div>
+        <h3>¡Listo! Ya recibimos tu información</h3>
+        <p class="q-sub" id="confirmMsg">Uno de nuestros asesores se comunicará contigo muy pronto para preparar tu oferta.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section" id="sobre-liz">
+  <div class="container about-grid">
+    <!--
+      VIDEO DE LIZ — reemplaza el bloque de abajo con tu video real.
+      Opción A (video propio subido a tu servidor): descomenta y edita el <video>.
+      Opción B (YouTube/Vimeo sin lista pública): descomenta y edita el <iframe>.
+      Mientras tanto se muestra un placeholder con botón de play.
+    -->
+    <div class="video-embed">
+      <!-- Foto de Liz de fondo mientras no hay video. Cuando grabes el video, borra esta línea <img> -->
+      <img class="video-photo" src="liz-foto.png" alt="Foto de Liz, fundadora de SellToLiz">
+      <!-- Opción A — video propio (reemplaza la <img> de arriba por esto):
+      <video controls poster="liz-foto.png">
+        <source src="ruta/a/tu-video.mp4" type="video/mp4">
+      </video>
+      -->
+      <!-- Opción B — YouTube/Vimeo embebido (reemplaza la <img> de arriba por esto):
+      <iframe src="https://www.youtube.com/embed/TU_ID_DE_VIDEO" title="Mensaje de Liz" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      -->
+    </div>
+    <div>
+      <span class="eyebrow">La persona detrás de SellToLiz</span>
+      <h2>Hola, soy Liz — y te voy a ayudar a vender tu casa sin dolores de cabeza</h2>
+      <p class="sub" style="margin-top:14px;">Sé que vender una propiedad no es solo una transacción: muchas veces hay una historia detrás — una herencia, una mudanza, una deuda, inquilinos que ya no aguantas, o simplemente el deseo de pasar la página. Trabajo directamente con familias hispanas en todo Estados Unidos, en su propio idioma, explicando cada paso con claridad y sin letras pequeñas.</p>
+      <p class="about-quote">"Mi compromiso es simple: una oferta justa, un proceso honesto y una respuesta a cada pregunta que tengas — en español, sin prisas y sin presión."</p>
+      <ul class="about-trust-list" style="margin-top:20px;">
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Compramos tu casa tal como está — sin importar su condición, sin juicios</li>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Puedes mostrarle nuestro contrato a un abogado o familiar de confianza — te lo recomendamos</li>
+        <li><svg class="icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>El dinero se resguarda en una title company neutral: ni tú ni yo lo tocamos directamente</li>
+      </ul>
+      <div class="signature">Liz
+        <small>Fundadora, SellToLiz</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-gray" id="como-funciona">
+  <div class="container center">
+    <span class="eyebrow">Nuestro proceso</span>
+    <h2>Vender tu casa en 3 pasos simples</h2>
+    <p class="sub">Sin listados, sin visitas interminables y sin sorpresas de último momento.</p>
+  </div>
+  <div class="container steps-grid">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <h3>Cuéntanos sobre tu propiedad</h3>
+      <p>Completa el formulario o llámanos. En minutos comenzamos a analizar tu propiedad y tu situación.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <h3>Recibe tu oferta en efectivo</h3>
+      <p>Te presentamos una oferta justa basada en el valor real de mercado — sin obligación de aceptar.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <h3>Elige tu fecha de cierre</h3>
+      <p>Si aceptas, tú decides cuándo cerrar. Nosotros nos encargamos del papeleo y los detalles.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container center">
+    <span class="eyebrow">La diferencia es clara</span>
+    <h2>SellToLiz vs. vender de la forma tradicional</h2>
+  </div>
+  <div class="container compare-wrap">
+    <div class="compare-card good">
+      <h3>Vendiendo con SellToLiz</h3>
+      <ul class="compare-list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Oferta en efectivo en 24 horas</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Cero comisiones ni honorarios de agente</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Sin visitas ni casas abiertas</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Compramos la propiedad tal como está</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Tú eliges la fecha de cierre</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Todo el proceso, en español</li>
+      </ul>
+    </div>
+    <div class="compare-card bad">
+      <h3>Vendiendo con un agente tradicional</h3>
+      <ul class="compare-list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>Puede tardar de 60 a 90+ días en venderse</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>Comisiones que reducen tu ganancia final</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>Visitas y casas abiertas constantes</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>Posibles reparaciones exigidas por el comprador</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>Cierre sujeto a la aprobación de un banco</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>Barrera del idioma en cada paso del proceso</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container">
+    <div class="cost-callout">
+      <strong>¿Sabías que esperar también cuesta dinero?</strong>
+      <p>Cada mes que tu propiedad sigue sin venderse, pagas impuestos, seguro y mantenimiento — y si está vacía, corres el riesgo de daños o invasión. Muchas veces ese costo mensual es más alto de lo que parece. Hablemos y saquemos la cuenta juntos, sin compromiso.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-gray">
+  <div class="container center">
+    <span class="eyebrow">Te podemos ayudar si...</span>
+    <h2>No importa la razón, tenemos una solución</h2>
+  </div>
+  <div class="container sit-grid">
+    <div class="sit-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      <h4>Heredaste una propiedad</h4>
+      <p>No tienes que cargar con una casa ajena a tu día a día ni pelear con la familia por qué hacer con ella. Resolvemos esto en paz, con cada quien recibiendo su parte.</p>
+    </div>
+    <div class="sit-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <h4>Necesitas venderla rápido</h4>
+      <p>Trabajo, salud o una mudanza urgente — tú eliges la fecha de cierre y nosotros nos ajustamos a tu calendario, no al revés.</p>
+    </div>
+    <div class="sit-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 21h18M9 8h1m4 0h1M9 12h1m4 0h1M9 16h1m4 0h1M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+      <h4>Necesita muchas reparaciones</h4>
+      <p>Cero explicaciones, cero juicios. La compramos exactamente como está, incluso con lo que no quieras llevarte.</p>
+    </div>
+    <div class="sit-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+      <h4>Tienes inquilinos problemáticos</h4>
+      <p>Podemos comprar la propiedad con el inquilino todavía adentro. Tú no tienes que lidiar con el desalojo.</p>
+    </div>
+    <div class="sit-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+      <h4>Estás en proceso de divorcio</h4>
+      <p>Un proceso neutral y justo para ambas partes, con el dinero repartido directo desde la title company — sin más discusiones.</p>
+    </div>
+    <div class="sit-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+      <h4>Tienes deudas o embargo</h4>
+      <p>Te ayudamos a entender tus fechas límite reales y a cerrar a tiempo, antes de que la situación empeore.</p>
+    </div>
+    <div class="sit-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      <h4>La propiedad está vacía</h4>
+      <p>Cada mes que sigue vacía te cuesta dinero real en impuestos, seguro y mantenimiento. Terminemos con ese gasto.</p>
+    </div>
+    <div class="sit-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>
+      <h4>Quieres evitar comisiones</h4>
+      <p>Compara el neto real: sin 6% de comisión, sin reparaciones y sin meses de espera con el banco de por medio.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="testimonios">
+  <div class="container center">
+    <span class="eyebrow">Lo que dicen quienes ya vendieron</span>
+    <h2>Familias que confiaron en SellToLiz</h2>
+  </div>
+  <div class="container">
+    <img src="resenas-google.png" alt="Capturas de reseñas de Google de SellToLiz" style="max-width:900px;margin:0 auto;border-radius:var(--radius);box-shadow:var(--shadow-md);">
+  </div>
+</section>
+
+<section class="section bg-gray" id="preguntas">
+  <div class="container center">
+    <span class="eyebrow">Resolvemos tus dudas</span>
+    <h2>Preguntas Frecuentes</h2>
+  </div>
+  <div class="container faq-list" id="faqList">
+
+    <div class="faq-item">
+      <button class="faq-q">¿Esto es legítimo o es una estafa?<span class="icon">+</span></button>
+      <div class="faq-a"><p>Somos compradores directos de propiedades. No cobramos nada por presentarte una oferta y nunca te pedimos dinero por adelantado. Todo el proceso es transparente y puedes hacer todas las preguntas que necesites antes de decidir.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">¿Cuánto cobran de comisión?<span class="icon">+</span></button>
+      <div class="faq-a"><p>Cero. No pagas comisiones de agente ni honorarios ocultos. El monto que acordamos es el que recibes.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">¿Compran casas en cualquier condición?<span class="icon">+</span></button>
+      <div class="faq-a"><p>Sí. Compramos propiedades tal como están, sin importar si necesitan reparaciones, tienen inquilinos, están vacías o incluso si tienen deudas pendientes.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">¿Cuánto tiempo toma todo el proceso?<span class="icon">+</span></button>
+      <div class="faq-a"><p>Normalmente te damos una oferta en un plazo de 24 horas después de recibir tu información. Si aceptas, el cierre puede tomar tan solo unos días — tú eliges la fecha.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">¿Tengo que hacer reparaciones antes de vender?<span class="icon">+</span></button>
+      <div class="faq-a"><p>No. Compramos la propiedad en el estado en que se encuentra. No necesitas limpiar, pintar ni arreglar nada.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">¿Qué pasa si tengo hipoteca o deudas sobre la propiedad?<span class="icon">+</span></button>
+      <div class="faq-a"><p>No hay problema. Revisamos tu situación específica y te explicamos las opciones disponibles antes de presentarte una oferta.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">¿Compran en todo Estados Unidos?<span class="icon">+</span></button>
+      <div class="faq-a"><p>Trabajamos con propietarios en distintos estados del país. Cuéntanos dónde está tu propiedad y te confirmamos si podemos ayudarte directamente o conectarte con el equipo adecuado.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">¿Todo el proceso puede hacerse en español?<span class="icon">+</span></button>
+      <div class="faq-a"><p>Sí. Todo nuestro proceso — desde la primera llamada hasta el cierre — se puede realizar completamente en español.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">¿Tengo que limpiar la casa o explicar en qué condición está?<span class="icon">+</span></button>
+      <div class="faq-a"><p>No. No hay que limpiar, ordenar ni justificar nada. Compramos casas en todas las condiciones y jamás vas a sentir que te juzgamos por el estado en el que se encuentre.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">¿Puedo consultarlo con mi familia o un abogado antes de decidir?<span class="icon">+</span></button>
+      <div class="faq-a"><p>Por supuesto, y te lo recomendamos. Nuestro contrato es claro y transparente, sin letras pequeñas que esconder — muéstraselo a quien tú confíes antes de firmar. Tú decides cuándo estás listo, sin presión.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="container">
+    <span class="eyebrow">Da el primer paso hoy</span>
+    <h2>¿Listo para vender tu casa sin complicaciones?</h2>
+    <p class="sub">Recibe tu oferta en efectivo, sin costo y sin compromiso. Hablamos tu idioma y respetamos tu tiempo.</p>
+    <div class="final-actions">
+      <a href="#oferta" class="btn btn-primary btn-lg">Quiero Mi Oferta En Efectivo</a>
+      <a href="tel:+15550100199" class="btn btn-outline btn-lg">Llamar Ahora: (555) 010-0199</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-grid">
+    <div>
+      <div class="footer-logo">Sell<span>To</span>Liz</div>
+      <p>Compramos propiedades en efectivo, sin comisiones y sin complicaciones. Atendemos a familias hispanas en todo Estados Unidos, en su propio idioma.</p>
+    </div>
+    <div>
+      <h4>Navegación</h4>
+      <ul>
+        <li><a href="#como-funciona">Cómo Funciona</a></li>
+        <li><a href="#sobre-liz">Sobre Liz</a></li>
+        <li><a href="#preguntas">Preguntas Frecuentes</a></li>
+        <li><a href="#oferta">Recibe Tu Oferta</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="tel:+15550100199">(555) 010-0199</a></li>
+        <li><a href="https://wa.me/15550100199">WhatsApp</a></li>
+        <li><a href="mailto:hola@selltoliz.com">hola@selltoliz.com</a></li>
+        <li><a href="#">Términos de Uso</a></li>
+        <li><a href="#">Política de Privacidad</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 SellToLiz. Todos los derechos reservados.</span>
+    <span>Servicio disponible en varios estados de EE. UU.</span>
+  </div>
+  <p class="disclaimer">SellToLiz es un servicio de compra directa de bienes raíces. Las ofertas de efectivo están sujetas a verificación de la propiedad y no constituyen una garantía de un monto específico. No somos una agencia inmobiliaria tradicional ni brindamos asesoría legal o financiera; recomendamos consultar con un profesional independiente para decisiones legales, fiscales o financieras relacionadas con la venta de tu propiedad.</p>
+</footer>
+
+<a href="https://wa.me/15550100199" class="whatsapp-float" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.696 4.61 1.897 6.478L4 29l7.72-1.865A11.94 11.94 0 0 0 16.001 27C22.63 27 28 21.63 28 15S22.63 3 16.001 3zm6.995 17.06c-.293.822-1.454 1.51-2.383 1.706-.634.13-1.462.235-4.251-.913-3.567-1.469-5.86-5.06-6.04-5.297-.174-.235-1.446-1.926-1.446-3.675 0-1.75.913-2.611 1.238-2.969.323-.358.705-.448.94-.448.235 0 .47.002.675.012.216.011.507-.082.792.605.294.706.997 2.443 1.084 2.622.087.178.145.388.028.623-.117.235-.176.382-.352.588-.176.206-.37.46-.529.618-.176.176-.36.367-.155.72.206.353.914 1.51 1.963 2.446 1.35 1.203 2.489 1.575 2.842 1.75.353.176.558.147.764-.088.206-.235.881-1.027 1.117-1.38.235-.352.47-.294.792-.176.323.117 2.05.968 2.402 1.144.353.176.588.264.675.412.088.147.088.85-.204 1.672z"/></svg>
+</a>
+
+<div class="mobile-sticky">
+  <a href="tel:+15550100199" class="btn btn-outline" style="color:var(--navy);border-color:var(--navy);">Llamar</a>
+  <a href="#oferta" class="btn btn-primary">Recibe Tu Oferta</a>
+</div>
+
+<script>
+  // Sticky header shadow on scroll
+  window.addEventListener('scroll', function(){
+    document.getElementById('siteHeader').classList.toggle('scrolled', window.scrollY > 12);
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    var q = item.querySelector('.faq-q');
+    var a = item.querySelector('.faq-a');
+    q.addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(openItem){
+        if(openItem !== item){
+          openItem.classList.remove('open');
+          openItem.querySelector('.faq-a').style.maxHeight = null;
+        }
+      });
+      item.classList.toggle('open', !isOpen);
+      a.style.maxHeight = !isOpen ? a.scrollHeight + 'px' : null;
+    });
+  });
+
+  // ===================== FORMULARIO PASO A PASO (estilo quiz) =====================
+  // CONEXIÓN A GOOGLE SHEETS:
+  // 1. Sigue la guía "Como-conectar-Google-Sheets.md" que está en esta misma carpeta.
+  // 2. Al final te dará una URL (termina en /exec). Pégala abajo, reemplazando el texto
+  //    'PEGA_AQUI_TU_URL_DE_GOOGLE_SCRIPT'.
+  // 3. Guarda el archivo y prueba enviando el formulario — revisa que llegue la fila a tu hoja.
+  const GOOGLE_SHEET_URL = 'PEGA_AQUI_TU_URL_DE_GOOGLE_SCRIPT';
+
+  const totalQuizSteps = 4;
+  let quizCurrent = 1;
+  const quizState = { condicion: null, tiempo: null };
+
+  function updateQuizProgress(){
+    document.getElementById('stepLbl').textContent = `PASO ${Math.min(quizCurrent, totalQuizSteps)} DE ${totalQuizSteps}`;
+    const pct = Math.min((quizCurrent / totalQuizSteps) * 100, 100);
+    document.getElementById('pctLbl').textContent = Math.round(pct) + '%';
+    document.getElementById('barFill').style.width = pct + '%';
+  }
+
+  function showQuizStep(n){
+    document.querySelectorAll('.form-card .step-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector(`.form-card .step-panel[data-step="${n}"]`).classList.add('active');
+    quizCurrent = n;
+    updateQuizProgress();
+  }
+
+  function quizNext(fromStep){ showQuizStep(fromStep + 1); }
+  function quizPrev(fromStep){ showQuizStep(fromStep - 1); }
+
+  function setupOptionGrid(gridId, stateKey, btnId){
+    const grid = document.getElementById(gridId);
+    grid.querySelectorAll('.opt').forEach(function(opt){
+      opt.addEventListener('click', function(){
+        grid.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
+        opt.classList.add('selected');
+        quizState[stateKey] = opt.dataset.val;
+        document.getElementById(btnId).disabled = false;
+      });
+    });
+  }
+  setupOptionGrid('conditionGrid', 'condicion', 'qBtn2');
+  setupOptionGrid('timelineGrid', 'tiempo', 'qBtn3');
+
+  function quizSubmit(){
+    const direccion = document.getElementById('direccion').value || 'tu propiedad';
+
+    const payload = {
+      fecha: new Date().toISOString(),
+      direccion: direccion,
+      ciudad: document.getElementById('ciudad').value,
+      estado: document.getElementById('estado').value,
+      condicion: quizState.condicion || '',
+      tiempo: quizState.tiempo || '',
+      nombre: document.getElementById('nombre').value,
+      telefono: document.getElementById('telefono').value,
+      correo: document.getElementById('correo').value
+    };
+
+    // Envía los datos a tu Google Sheet (ver GOOGLE_SHEET_URL más arriba).
+    // Nota: usamos 'no-cors' porque así funcionan los Apps Script de Google desde
+    // un formulario externo — no podemos leer la respuesta, pero el dato sí llega a la hoja.
+    if (GOOGLE_SHEET_URL && GOOGLE_SHEET_URL.indexOf('PEGA_AQUI') === -1) {
+      fetch(GOOGLE_SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      }).catch(function(err){ console.error('Error enviando a Google Sheets:', err); });
+    } else {
+      console.warn('GOOGLE_SHEET_URL no está configurada todavía — este lead no se guardó en ningún lado.');
+    }
+
+    document.getElementById('confirmMsg').textContent =
+      'Uno de nuestros asesores se comunicará contigo muy pronto sobre ' + direccion + '.';
+    showQuizStep(5);
+  }
+
+  updateQuizProgress();
+</script>
+
+</body>
+</html>
